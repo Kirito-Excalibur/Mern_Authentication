@@ -4,6 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
+    "start": "nodemon",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -15,5 +16,10 @@
   "bugs": {
     "url": "https://github.com/Kirito-Excalibur/Mern_Authentication/issues"
   },
-  "homepage": "https://github.com/Kirito-Excalibur/Mern_Authentication#readme"
+  "homepage": "https://github.com/Kirito-Excalibur/Mern_Authentication#readme",
+  "dependencies": {
+    "express": "^4.18.1",
+    "mongoose": "^6.6.3",
+    "nodemon": "^2.0.20"
+  }
 }
