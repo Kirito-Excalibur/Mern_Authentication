@@ -1,11 +1,14 @@
-import { Button, TextField, Typography } from '@mui/material';
-import { Box } from '@mui/system';
-import axios from 'axios';
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { Button, TextField, Typography } from "@mui/material";
+import { Box } from "@mui/system";
+import axios from "axios";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { authActions } from "../store";
 
 const Login = () => {
-  const history=useNavigate()
+  const dispatch = useDispatch();
+  const history = useNavigate();
   const [inputs, setinputs] = useState({
     name: "",
     email: "",
@@ -19,18 +22,22 @@ const Login = () => {
   };
 
   const sendRequest = async () => {
-    const res = axios.post('http://localhost:5000/api/login',{
-      email:inputs.email,
-      password:inputs.password
-    }).catch((err)=>console.log(err))
-    const data=await res.data
-    return data
+    const res = await axios
+      .post("http://localhost:5000/api/login", {
+        email: inputs.email,
+        password: inputs.password,
+      })
+      .catch((err) => console.log(err));
+    const data = await res.data;
+    return data;
   };
 
   const handleSumbit = (e) => {
     e.preventDefault();
-   //send http request
-   sendRequest().then(()=>history("/user"))
+    //send http request
+    sendRequest()
+      .then(() => dispatch(authActions.login()))
+      .then(() => history("/user"));
   };
 
   return (
@@ -46,7 +53,7 @@ const Login = () => {
           alignItems="center"
         >
           <Typography variant="h2">Login</Typography>
-       -
+          -
           <TextField
             name="email"
             onChange={handleChange}
@@ -74,4 +81,4 @@ const Login = () => {
   );
 };
 
-export default Login
+export default Login;
