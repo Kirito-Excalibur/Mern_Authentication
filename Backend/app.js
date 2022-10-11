@@ -13,3 +13,4 @@ mongoose.connect(`mongodb+srv://Simon:${process.env.MONGODB_PASSWORD}@new-hope.6
     app.listen(process.env.PORT || 5000);
     console.log("Database is connected and im listening to port 5000")
 }).catch((err) => console.log(err))
+/// showing some changes
