@@ -1,6 +1,9 @@
 const User = require("../model/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+
+
+
 const signup = async (req, res, next) => {
   const { name, email, password } = req.body;
   let existingUser;
@@ -47,7 +50,7 @@ const login = async (req, res, next) => {
   if (!isPasswordCorrect) {
     return res.status(400).json({ message: 'Invalid Email/Password' })
   }
-  const token = jwt.sign({ id: existingUser.id }, process.env.JWT_SECRET_KEY, {
+  const token = jwt.sign({ id: existingUser.id }, "MyKey", {
     expiresIn: "35s"
   })
 
@@ -78,7 +81,7 @@ const verifyToken = (req, res, next) => {
   if (!token) {
     res.status(404).json({ message: "No token found" })
   }
-  jwt.verify(String(token), process.env.JWT_SECRET_KEY, (err, user) => {
+  jwt.verify(String(token), "MyKey", (err, user) => {
     if (err) {
       return res.status(404).json({ message: "Invalid Token" })
     }
@@ -89,12 +92,12 @@ const verifyToken = (req, res, next) => {
 }
 
 const refreshToken = (req, res, next) => {
-  const cookies = req.cookie;
+  const cookies = req.headers.cookie;
   const prevToken = cookies.split("=")[1];
   if (!prevToken) {
     return res.status(400).json({ message: "Couldn't find token" });
   }
-  jwt.verify(String(prevToken), process.env.JWT_SECRET_KEY, (err, user) => {
+  jwt.verify(String(prevToken), "MyKey", (err, user) => {
     if (err) {
       console.log(err);
       return res.status(403).json({ message: "Authentication failed" });
@@ -102,7 +105,7 @@ const refreshToken = (req, res, next) => {
     res.clearCookie(`${user.id}`);
     req.cookies[`${user.id}`] = "";
 
-    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET_KEY, {
+    const token = jwt.sign({ id: user.id }, "MyKey", {
       expiresIn: "35s",
     });
     console.log("Regenerated Token\n", token);
@@ -140,20 +143,20 @@ const logout = (req, res, next) => {
   if (!token) {
     res.status(404).json({ message: "No token found" })
   }
-  jwt.verify(String(token), process.env.JWT_SECRET_KEY, (err, user) => {
+  jwt.verify(String(token), "MyKey", (err, user) => {
     if (err) {
       console.log(err);
       return res.status(403).json({ message: "Authentication failed" });
     }
     res.clearCookie(`${user.id}`);
     req.cookies[`${user.id}`] = "";
-      return res.status(200).json({ message: "Successfully logged Out" });
+    return res.status(200).json({ message: "Successfully logged Out" });
 
-  
-})
+
+  })
 }
 
-exports.logout=logout
+exports.logout = logout
 exports.login = login;
 exports.signup = signup;
 exports.verifyToken = verifyToken
