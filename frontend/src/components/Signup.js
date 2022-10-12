@@ -19,7 +19,7 @@ const Signup = () => {
   };
 
   const sendRequest = async () => {
-    const res = axios.post('http://localhost:5000/api/signup',{
+    const res = axios.post('https://murmuring-everglades-20283.herokuapp.com/api/signup',{
       name:inputs.name,
       email:inputs.email,
       password:inputs.password

@@ -7,7 +7,7 @@ const Welcome = () => {
   const [user, setUser] = useState()
 
   const refreshToken = async () => {
-    const res = await axios.get("http://localhost:5000/api/refresh", {
+    const res = await axios.get("https://murmuring-everglades-20283.herokuapp.com/api/refresh", {
       withCredential: true
     }).catch((err) => console.log(err))
 
@@ -16,7 +16,7 @@ const Welcome = () => {
   }
 
   const sendRequest = async () => {
-    const res = await axios.get('http://localhost:5000/api/user', {
+    const res = await axios.get('https://murmuring-everglades-20283.herokuapp.com/api/user', {
       withCredentials: true
     }).catch((err) => console.log(err))
 

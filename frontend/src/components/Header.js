@@ -9,7 +9,7 @@ const Header = () => {
     const dispatch = useDispatch()
     const isLoggedIn = useSelector(state => state.isLoggedIn)
     const sendLogoutReq = async () => {
-        const res = await axios.post('http://localhost:5000/api/logout', null, {
+        const res = await axios.post('https://murmuring-everglades-20283.herokuapp.com/api/logout', null, {
             withCredentials: true
         })
         if (res.status === 200) {
